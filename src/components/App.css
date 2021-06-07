@@ -1,0 +1,11 @@
+body {
+  background: #f1faee;
+}
+
+.search-bar {
+  background: #a8dadc !important;
+}
+
+.search-bar input {
+  background: #f1faee !important;
+}
