@@ -9,3 +9,12 @@ body {
 .search-bar input {
   background: #f1faee !important;
 }
+
+.navigate button.ui.button {
+  background: #1d3557;
+  color: white;
+}
+
+.navigate button.ui.button:hover {
+  background: #457b9d;
+}
