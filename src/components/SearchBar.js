@@ -28,12 +28,14 @@ class SearchBar extends React.Component {
         <div className="search-bar ui segment grid">
           <div className="eleven wide column">
             <form className="ui form" onSubmit={this.onFormSubmit}>
-              <div className="field">
+              <div className="field ui icon input sixteen wide column">
                 <input
                   type="text"
                   value={this.state.term}
                   onChange={this.onInputChange}
+                  placeholder="Search for a video and press enter"
                 />
+                <i className="search icon"></i>
               </div>
             </form>
           </div>

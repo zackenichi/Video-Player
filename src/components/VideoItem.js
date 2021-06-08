@@ -11,7 +11,6 @@ const VideoItem = ({ video, onVideoSelect }) => {
       />
       <div className="content">
         <div className="header">
-          {}
           <span
             dangerouslySetInnerHTML={{ __html: video.snippet.title }}
           ></span>

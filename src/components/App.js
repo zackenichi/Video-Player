@@ -4,9 +4,10 @@ import youtube from "../apis/youtube";
 import VideoList from "./VideoList";
 import VideoDetail from "./VideoDetail";
 import "./App.css";
+import Spinner from "./Spinner";
 
 class App extends React.Component {
-  state = { videos: [], selectedVideo: null };
+  state = { videos: [], selectedVideo: null, content: null };
 
   componentDidMount() {
     this.onTermSubmit("ZacKenichi");
@@ -22,6 +23,7 @@ class App extends React.Component {
     this.setState({
       videos: response.data.items,
       selectedVideo: response.data.items[0],
+      content: response,
     });
   };
 
@@ -30,6 +32,7 @@ class App extends React.Component {
   };
 
   render() {
+    if (!this.state.content) return <Spinner />;
     return (
       <div className="ui container" style={{ marginTop: "10px" }}>
         <SearchBar onFormSubmit={this.onTermSubmit} />
