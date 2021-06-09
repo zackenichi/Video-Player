@@ -1,57 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import youtube from "../apis/youtube";
 import VideoList from "./VideoList";
 import VideoDetail from "./VideoDetail";
 import "./App.css";
-import Spinner from "./Spinner";
 
-class App extends React.Component {
-  state = { videos: [], selectedVideo: null, content: null };
+const App = () => {
+  const [videos, setVideos] = useState([]);
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [isLoading, setLoading] = useState(true);
 
-  componentDidMount() {
-    this.onTermSubmit("ZacKenichi");
-  }
+  useEffect(() => {
+    onTermSubmit("ZacKenichi");
+    console.log("Connecting to YouTube API");
+    console.log("Loading Videos");
+    const el = document.querySelector(".loader-container");
+    if (el) {
+      el.remove();
+      setLoading(!isLoading);
+    }
+  }, []);
 
-  onTermSubmit = async (term) => {
+  const onTermSubmit = async (term) => {
     const response = await youtube.get("/search", {
       params: {
         q: term,
       },
     });
-
-    this.setState({
-      videos: response.data.items,
-      selectedVideo: response.data.items[0],
-      content: response,
-    });
+    setVideos(response.data.items);
+    setSelectedVideo(response.data.items[0]);
   };
 
-  onVideoSelect = (video) => {
-    this.setState({ selectedVideo: video });
+  const onVideoSelect = (video) => {
+    setSelectedVideo(video);
   };
 
-  render() {
-    if (!this.state.content) return <Spinner />;
-    return (
-      <div className="ui container" style={{ marginTop: "10px" }}>
-        <SearchBar onFormSubmit={this.onTermSubmit} />
-        <div className="ui grid">
-          <div className="ui row">
-            <div className="eleven wide column">
-              <VideoDetail video={this.state.selectedVideo} />
-            </div>
-            <div className="five wide column">
-              <VideoList
-                onVideoSelect={this.onVideoSelect}
-                videos={this.state.videos}
-              />
-            </div>
+  return (
+    <div className="ui container" style={{ marginTop: "10px" }}>
+      <SearchBar onFormSubmit={onTermSubmit} />
+      <div className="ui grid">
+        <div className="ui row">
+          <div className="eleven wide column">
+            <VideoDetail video={selectedVideo} />
+          </div>
+          <div className="five wide column">
+            <VideoList onVideoSelect={onVideoSelect} videos={videos} />
           </div>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default App;

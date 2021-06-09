@@ -1,57 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import { rword } from "rword";
 
-class SearchBar extends React.Component {
-  state = { term: "" };
+const SearchBar = ({ onFormSubmit }) => {
+  const [term, setTerm] = useState("");
 
-  onInputChange = (event) => {
-    this.setState({ term: event.target.value });
+  const onInputChange = (event) => {
+    setTerm(event.target.value);
   };
 
-  onFormSubmit = (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
-    this.props.onFormSubmit(this.state.term);
+    onFormSubmit(term);
   };
 
-  onRandomPressed = (event) => {
+  const onRandomPressed = (event) => {
     event.preventDefault();
     let word = rword.generate();
     // console.log(`generated word is ${word}`);
-    this.setState({ term: word });
-    this.props.onFormSubmit(this.state.term);
+    setTerm(word);
+    onFormSubmit(word);
   };
 
-  render() {
-    return (
-      <div className="navigate">
-        <h1>Video Search</h1>
-        <div className="search-bar ui segment grid">
-          <div className="eleven wide column">
-            <form className="ui form" onSubmit={this.onFormSubmit}>
-              <div className="field ui icon input sixteen wide column">
-                <input
-                  type="text"
-                  value={this.state.term}
-                  onChange={this.onInputChange}
-                  placeholder="Search for a video and press enter"
-                />
-                <i className="search icon"></i>
-              </div>
-            </form>
-          </div>
-          <div className="five wide column">
-            <button
-              className="ui right labeled icon button fluid"
-              onClick={this.onRandomPressed}
-            >
-              <i className="right arrow icon"></i>
-              Random
-            </button>
-          </div>
+  return (
+    <div className="navigate">
+      <h1>Video Search</h1>
+      <div className="search-bar ui segment grid">
+        <div className="eleven wide column">
+          <form className="ui form" onSubmit={onSubmit}>
+            <div className="field ui icon input sixteen wide column">
+              <input
+                type="text"
+                value={term}
+                onChange={onInputChange}
+                placeholder="Search for a video and press enter"
+              />
+              <i className="search icon"></i>
+            </div>
+          </form>
+        </div>
+        <div className="five wide column">
+          <button
+            className="ui right labeled icon button fluid"
+            onClick={onRandomPressed}
+          >
+            <i className="right arrow icon"></i>
+            Random
+          </button>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default SearchBar;
