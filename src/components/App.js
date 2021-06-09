@@ -19,7 +19,7 @@ const App = () => {
       el.remove();
       setLoading(!isLoading);
     }
-  }, []);
+  }, [isLoading]);
 
   const onTermSubmit = async (term) => {
     const response = await youtube.get("/search", {
